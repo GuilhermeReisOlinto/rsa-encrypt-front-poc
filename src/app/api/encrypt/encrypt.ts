@@ -12,15 +12,19 @@ export default function Encrypt(data: string) {
     const iv = randomBytes(16);
 
     const cipher = createCipheriv('aes-256-gcm', aesKey, iv);
-    const encrypted = Buffer.concat([cipher.update(stringData, 'utf8'), cipher.final()]);
+    const encrypted = Buffer.concat([
+        cipher.update(stringData, 'utf8'),
+        cipher.final()
+    ]);
+
     const authTag = cipher.getAuthTag();
 
     const encryptedKey = publicEncrypt(RSA_PUBLIC_KEY, aesKey);
 
     return {
-        iv: iv.toString('hex'),
+        iv: iv.toString('base64'),
         encryptedKey: encryptedKey.toString('base64'),
-        authTag: authTag.toString('hex'),
+        authTag: authTag.toString('base64'),
         encrypt: encrypted.toString('base64'),
     }
 }
