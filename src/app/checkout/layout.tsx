@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { encryptPayloadFront } from '../hook/encryptFront';
 
 export default function CheckoutLayout() {
     const [form, setForm] = useState({
@@ -17,20 +18,15 @@ export default function CheckoutLayout() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const resp = await fetch('/api/route', {
+        const dataEncrypt = await encryptPayloadFront(form)
+
+        const response: Response = await fetch('/api/decrypt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(form),
+            body: JSON.stringify(dataEncrypt),
         });
-
-        if (resp.ok) {
-            setMensagem('Cadastro realizado com sucesso!');
-            setForm({ nome: '', email: '', senha: '' });
-        } else {
-            setMensagem('Erro ao realizar o cadastro.');
-        }
     }
 
 
