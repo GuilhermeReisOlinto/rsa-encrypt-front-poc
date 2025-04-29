@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Encrypt from '../../hook/encryptBack';
-import { Decrypt } from '../../hook/decryptBack';
+import Encrypt from '../../../shared/encryption/encryptBack';
+import { Decrypt } from '../../../shared/encryption/decryptBack';
 
 export async function POST(req: NextRequest) {
     const dados = await req.json();
